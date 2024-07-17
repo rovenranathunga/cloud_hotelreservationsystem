@@ -1,0 +1,542 @@
+[
+    {
+        "id": "927b05d6b85596f8",
+        "type": "tab",
+        "label": "Flow 5",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "a7faa041f3ca6390",
+        "type": "ui_text_input",
+        "z": "927b05d6b85596f8",
+        "name": "",
+        "label": "Email ",
+        "tooltip": "",
+        "group": "45cd2621cbf723ab",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "mode": "text",
+        "delay": 300,
+        "topic": "payload",
+        "sendOnBlur": true,
+        "className": "",
+        "topicType": "msg",
+        "x": 2990,
+        "y": 180,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "3b51c1948e55b749",
+        "type": "debug",
+        "z": "927b05d6b85596f8",
+        "name": "debug 10",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 3620,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "32f3a123b56eeb10",
+        "type": "ui_text_input",
+        "z": "927b05d6b85596f8",
+        "name": "",
+        "label": "Password",
+        "tooltip": "",
+        "group": "45cd2621cbf723ab",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "mode": "text",
+        "delay": 300,
+        "topic": "payload",
+        "sendOnBlur": true,
+        "className": "",
+        "topicType": "msg",
+        "x": 3020,
+        "y": 240,
+        "wires": [
+            [
+                "ce19e2f170dc0c49"
+            ]
+        ]
+    },
+    {
+        "id": "658dc1ff0557a752",
+        "type": "ui_button",
+        "z": "927b05d6b85596f8",
+        "name": "",
+        "group": "45cd2621cbf723ab",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Sign In",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "Button Pressed",
+        "payloadType": "str",
+        "topic": "payload",
+        "topicType": "msg",
+        "x": 2990,
+        "y": 100,
+        "wires": [
+            [
+                "3b51c1948e55b749"
+            ]
+        ]
+    },
+    {
+        "id": "480ad38475d720f9",
+        "type": "ui_button",
+        "z": "927b05d6b85596f8",
+        "name": "",
+        "group": "e18d94dfba16301b",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Confirm",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "Button pressed",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 3040,
+        "y": 300,
+        "wires": [
+            [
+                "b5d4404c3920c628"
+            ]
+        ]
+    },
+    {
+        "id": "881d06bdbae34bdd",
+        "type": "mysql",
+        "z": "927b05d6b85596f8",
+        "mydb": "1d7ce61a2887fc31",
+        "name": "",
+        "x": 3640,
+        "y": 240,
+        "wires": [
+            [
+                "3b51c1948e55b749"
+            ]
+        ]
+    },
+    {
+        "id": "b5d4404c3920c628",
+        "type": "function",
+        "z": "927b05d6b85596f8",
+        "name": "function 4",
+        "func": "",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "// Extract email and password from the flow context\nvar email = flow.get('email');\nvar password = flow.get('password');\n\nif (email && password) {\n    // Construct the SQL query to insert the data\n    msg.topic = \"INSERT INTO users (email, password) VALUES (?, ?)\";\n    msg.payload = [email, password];\n} else {\n    // If email or password is missing, throw an error\n    node.error(\"Email or password is missing\");\n}\n\nreturn msg;\n",
+        "finalize": "",
+        "libs": [],
+        "x": 3440,
+        "y": 240,
+        "wires": [
+            [
+                "881d06bdbae34bdd"
+            ]
+        ]
+    },
+    {
+        "id": "ce19e2f170dc0c49",
+        "type": "join",
+        "z": "927b05d6b85596f8",
+        "name": "join",
+        "mode": "custom",
+        "build": "object",
+        "property": "payload.email",
+        "propertyType": "msg",
+        "key": "payload.password",
+        "joiner": "\\n",
+        "joinerType": "str",
+        "accumulate": true,
+        "timeout": "",
+        "count": "2",
+        "reduceRight": false,
+        "reduceExp": "",
+        "reduceInit": "",
+        "reduceInitType": "",
+        "reduceFixup": "",
+        "x": 3210,
+        "y": 200,
+        "wires": [
+            [
+                "b5d4404c3920c628"
+            ]
+        ]
+    },
+    {
+        "id": "7def4bf251ee9424",
+        "type": "ui_template",
+        "z": "927b05d6b85596f8",
+        "group": "d7cd2f4d6d83c4a9",
+        "name": "",
+        "order": 0,
+        "width": "6",
+        "height": "5",
+        "format": "<img src=\"https://cdn.britannica.com/30/94430-050-D0FC51CD/Niagara-Falls.jpg\" alt=\"sunset\">",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 400,
+        "y": 340,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "236057ec3a087e8a",
+        "type": "ui_template",
+        "z": "927b05d6b85596f8",
+        "group": "9e65e85fb7560ea6",
+        "name": "",
+        "order": 1,
+        "width": "6",
+        "height": "5",
+        "format": "<img src=\"https://travel.usnews.com/images/MlennyBuilding-dome-outside-sunset.jpg\" alt=\"sunset\">",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 400,
+        "y": 260,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c33ce38e4d41a0c0",
+        "type": "ui_template",
+        "z": "927b05d6b85596f8",
+        "group": "f649c18ba5844f2c",
+        "name": "",
+        "order": 1,
+        "width": "6",
+        "height": "5",
+        "format": "<img src=\"https://d11xlc182tbthb.cloudfront.net/files/xggnV9FdfmIxB11bgbVQx3CzVBiXEmTWJ2p8xs7B.jpeg\" alt=\"sunset\">",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 400,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "79f5641b0f5dec49",
+        "type": "ui_template",
+        "z": "927b05d6b85596f8",
+        "group": "fc3d63174928386f",
+        "name": "",
+        "order": 1,
+        "width": "6",
+        "height": "5",
+        "format": "<img src=\"https://eadn-wc03-11391632.nxedge.io/wp-content/uploads/2019/02/statue-of-liberty.jpg\" alt=\"sunset\">",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 400,
+        "y": 420,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a1271a68c67b27d7",
+        "type": "ui_template",
+        "z": "927b05d6b85596f8",
+        "group": "72b227d7e51b5c48",
+        "name": "",
+        "order": 0,
+        "width": "6",
+        "height": "5",
+        "format": "<img src=\"https://images.photowall.com/products/60833/fuji-mountain-in-autumn.jpg?h=699&q=85\" alt=\"sunset\">",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 600,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "61f54fd627566726",
+        "type": "ui_template",
+        "z": "927b05d6b85596f8",
+        "group": "fa663995be741730",
+        "name": "",
+        "order": 0,
+        "width": "6",
+        "height": "5",
+        "format": "<img src=\"https://media.tacdn.com/media/attractions-splice-spp-674x446/0b/27/5f/42.jpg\" alt=\"sunset\">",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 600,
+        "y": 260,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "1f9882326dcec87a",
+        "type": "ui_template",
+        "z": "927b05d6b85596f8",
+        "group": "cf6a730a039dcbde",
+        "name": "",
+        "order": 0,
+        "width": "6",
+        "height": "5",
+        "format": "<img src=\"https://www.jonnymelon.com/wp-content/uploads/2021/03/elephant-rocks-12.jpg\" alt=\"sunset\">",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 600,
+        "y": 340,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "4e3c90b96c233184",
+        "type": "ui_template",
+        "z": "927b05d6b85596f8",
+        "group": "77ffa00ebd6c3b47",
+        "name": "",
+        "order": 0,
+        "width": "6",
+        "height": "5",
+        "format": "<img src=\"https://www.lisbon.net/f/portugal/lisboa/guia/torre-belem-m.jpg\" alt=\"sunset\">",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 600,
+        "y": 420,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "4e5e142544c5e6a5",
+        "type": "ui_template",
+        "z": "927b05d6b85596f8",
+        "group": "d27e8a4fc705d006",
+        "name": "",
+        "order": 0,
+        "width": "6",
+        "height": "5",
+        "format": "<img src=\"https://cdn.britannica.com/54/150954-050-F8D14782/Night-view-Parthenon-Athens.jpg\" alt=\"sunset\">",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 400,
+        "y": 500,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "45cd2621cbf723ab",
+        "type": "ui_group",
+        "name": "Sign In",
+        "tab": "25a17a61b83662de",
+        "order": 3,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "e18d94dfba16301b",
+        "type": "ui_group",
+        "name": "Confirmation",
+        "tab": "28d30e578ea97d82",
+        "order": 6,
+        "disp": true,
+        "width": "12",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "1d7ce61a2887fc31",
+        "type": "MySQLdatabase",
+        "name": "hotels_clients",
+        "host": "Rovens-MacBook-Air.local",
+        "port": "3306",
+        "db": "hotels_clients",
+        "tz": "",
+        "charset": "UTF8"
+    },
+    {
+        "id": "d7cd2f4d6d83c4a9",
+        "type": "ui_group",
+        "name": "Niagara Falls, CA",
+        "tab": "ff27ded9119a305c",
+        "order": 2,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "9e65e85fb7560ea6",
+        "type": "ui_group",
+        "name": "Reichstag Building, GER",
+        "tab": "ff27ded9119a305c",
+        "order": 7,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "f649c18ba5844f2c",
+        "type": "ui_group",
+        "name": "Kangaroo Island, AU",
+        "tab": "ff27ded9119a305c",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "fc3d63174928386f",
+        "type": "ui_group",
+        "name": "Liberty Statue, US",
+        "tab": "ff27ded9119a305c",
+        "order": 4,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "72b227d7e51b5c48",
+        "type": "ui_group",
+        "name": "Fuji Mountain, JP",
+        "tab": "ff27ded9119a305c",
+        "order": 5,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "fa663995be741730",
+        "type": "ui_group",
+        "name": "Plaza De Espana, SP",
+        "tab": "ff27ded9119a305c",
+        "order": 8,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "cf6a730a039dcbde",
+        "type": "ui_group",
+        "name": "Elephant Rocks, DEN",
+        "tab": "ff27ded9119a305c",
+        "order": 9,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "77ffa00ebd6c3b47",
+        "type": "ui_group",
+        "name": "Belem Tower, POR",
+        "tab": "ff27ded9119a305c",
+        "order": 10,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "d27e8a4fc705d006",
+        "type": "ui_group",
+        "name": "Parthenon, GRE",
+        "tab": "ff27ded9119a305c",
+        "order": 11,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "25a17a61b83662de",
+        "type": "ui_tab",
+        "name": "Sign In",
+        "icon": "dashboard",
+        "order": 1,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "28d30e578ea97d82",
+        "type": "ui_tab",
+        "name": "Book a hotel",
+        "icon": "dashboard",
+        "order": 3,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "ff27ded9119a305c",
+        "type": "ui_tab",
+        "name": "Attractions",
+        "icon": "dashboard",
+        "order": 2,
+        "disabled": false,
+        "hidden": false
+    }
+]
